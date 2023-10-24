@@ -2,9 +2,9 @@ import React from "react";
 
 function Logo() {
   return (
-    <div>
-      <span>MG</span>
-      <span>arage</span>
+    <div className="font-logo">
+      <span className="text-logo text-6xl font-bold tracking-tight">MG</span>
+      <span className="text-xl font-normal">arage</span>
     </div>
   );
 }
