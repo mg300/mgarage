@@ -13,6 +13,7 @@ const config: Config = {
       },
       fontFamily: {
         logo: ["Ubuntu"],
+        title: ["Poppins", "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
