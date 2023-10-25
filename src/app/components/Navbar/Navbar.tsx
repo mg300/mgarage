@@ -3,12 +3,16 @@ import Logo from "../Logo";
 
 function Navbar() {
   return (
-    <div>
+    <div className="flex justify-between bg-none m-5 items-center">
       <Logo />
-      <button>Home</button>
-      <button>Service</button>
-      <button>Contact us</button>
-      <button>Umów wizyte</button>
+      <div>
+        <button className="mr-10 cursor-pointer hover:text-gray-700  font-semibold ">Home</button>
+        <button className="mr-10 cursor-pointer hover:text-gray-700  font-semibold ">Service</button>
+        <button className="mr-10 cursor-pointer hover:text-gray-700  font-semibold ">Contact us</button>
+        <button className="mr-10 cursor-pointer hover:text-gray-700  font-bold border-collapse text-logo">
+          Umów wizytę
+        </button>
+      </div>
     </div>
   );
 }
