@@ -15,7 +15,7 @@ function About() {
         </div>
         <div className="lg:w-[50%] max-w-[700px]">
           <Image
-            className="w-full my-10"
+            className="w-full my-0 md:my-10"
             alt="car"
             src="/about_car.png"
             width={600}
