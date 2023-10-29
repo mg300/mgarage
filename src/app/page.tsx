@@ -1,6 +1,7 @@
 import Button from "./components/Button/Button";
 import BackgroundMain from "./components/BackgroundMain";
 import About from "./components/About";
+import Services from "./components/Services";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <BackgroundMain />
       </div>
       <About />
+      <Services />
     </>
   );
 }
