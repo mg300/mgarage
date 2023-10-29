@@ -1,11 +1,12 @@
 import React from "react";
-import Image from "next/image";
 import Logo from "../Logo";
+import Image from "next/image";
+
 function Footer() {
   return (
     <div className="bg-black h-max lg:h-96 w-full px-5 md:px-20 pt-10 justify-between items-start flex flex-wrap flex-col lg:flex-row">
       <div className="self-center lg:self-start text-center lg:text-left mb-10 lg:mb-0">
-        <Logo color=" text-white" />
+        <Image alt="abc" src="/white.png" width={230} height={230} />
       </div>
       <div className="self-center lg:self-start mb-10 lg:mb-0 text-center lg:text-left text-white font-body flex-col">
         <p className="text-3xl font-bold leading-[68px]">Lokalizacja</p>
