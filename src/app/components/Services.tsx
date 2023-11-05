@@ -3,14 +3,14 @@ import Image from "next/image";
 import { FiTool } from "react-icons/fi";
 function Services() {
   return (
-    <div className="font-body flex flex-col items-center bg-[#252525]">
+    <div className="font-body flex flex-col items-center bg-[rgb(37,37,37)]">
       <div className="text-gray-200 lg:text-5xl text-5xl font-extrabold my-10">Nasze usługi</div>
-      <div className="flex flex-col lg:flex-row items-center lg:mx-10 lg:mb-10 gap-[30px]">
-        <div className="min-w-[400px] max-w-[700px]">
-          <Image src="/engine2.jpg" width={500} height={500} alt="engine" />
+      <div className="flex flex-col lg:flex-row px-5 items-center lg:mb-10 gap-[30px]">
+        <div className="w-[90%] lg:w-[50%] max-w-[700px]">
+          <Image className="rounded-[35px]" src="/img1.jpg" width={1000} height={1000} alt="engine" />
         </div>
-        <div className="w-[90%] lg:w-[80%] text-justify flex:1 text-gray-200 font-medium lg:leading-8 xl:leading-10">
-          <ul className="leading-8 text-lg inline-block">
+        <div className="min-w-[590px] px-5 lg:px-0 mb-10 lg:mb-0 text-justify flex:1 text-gray-200 font-medium lg:leading-8 xl:leading-10 text-xs">
+          <ul className="leading-8 text-base lg:text-lg inline-block">
             <li>
               <span className="text-3xl inline-block mr-5">
                 <FiTool />
