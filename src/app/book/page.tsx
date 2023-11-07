@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-function page() {
+function Page() {
   const [clicked, setClicked] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const handleClick = function (arg: string) {
@@ -85,4 +85,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
