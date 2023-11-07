@@ -2,6 +2,7 @@ import Button from "./components/Button/Button";
 import BackgroundMain from "./components/BackgroundMain";
 import About from "./components/About";
 import Services from "./components/Services";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -14,7 +15,9 @@ export default function Home() {
           Sprawdź dostępność i zarezerwuj termin naprawy online!
         </p>
         <div className="mt-8 ml-10">
-          <Button>Zarezerwuj termin</Button>
+          <Link href="/book">
+            <Button>Zarezerwuj termin</Button>
+          </Link>
         </div>
         <BackgroundMain />
       </div>
