@@ -13,13 +13,13 @@ function About() {
           doskonałej kondycji. Nasze zaangażowanie w środowisko skłania nas także do stosowania ekologicznych rozwiązań,
           gdy to możliwe.
         </div>
-        <div className="lg:w-[50%] max-w-[700px]">
+        <div className="mb-10 lg:mb-0 mx-5 lg:mx-0 lg:w-[70%] max-w-[900px]">
           <Image
-            className="w-full my-0 md:my-10"
+            className="min-w-[500px] my-0 lg:my-10"
             alt="car"
             src="/about_car.png"
-            width={600}
-            height={600}
+            width={900}
+            height={900}
             loading="lazy"
           ></Image>
         </div>
