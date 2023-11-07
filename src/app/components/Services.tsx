@@ -9,7 +9,7 @@ function Services() {
         <div className="w-[90%] lg:w-[50%] max-w-[700px]">
           <Image className="rounded-[35px]" src="/img1.jpg" width={1000} height={1000} alt="engine" />
         </div>
-        <div className="min-w-[590px] px-5 lg:px-0 mb-10 lg:mb-0 text-justify flex:1 text-gray-200 font-medium lg:leading-8 xl:leading-10 text-xs">
+        <div className="lg:min-w-[590px] px-5 lg:px-0 mb-10 lg:mb-0 text-justify flex:1 text-gray-200 font-medium lg:leading-8 xl:leading-10 text-xs">
           <ul className="leading-8 text-base lg:text-lg inline-block">
             <li>
               <span className="text-3xl inline-block mr-5">

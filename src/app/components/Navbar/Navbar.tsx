@@ -17,7 +17,7 @@ function Navbar() {
         <button className="mr-10  text-lg hidden md:inline cursor-pointer hover:text-gray-700  font-semibold ">
           Skontaktuj się
         </button>
-        <button className="mr-10 text-lg cursor-pointer hover:text-gray-700  font-bold border-collapse text-logo">
+        <button className="lg:mr-10 text-lg cursor-pointer hover:text-gray-700  font-bold border-collapse text-logo">
           Umów wizytę
         </button>
       </div>
