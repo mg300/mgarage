@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import Button from "../components/Button/Button";
+import Link from "next/link";
 
 function Page() {
   const [clicked, setClicked] = useState("");
@@ -20,7 +22,7 @@ function Page() {
   return (
     <div className="h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Dostępne usługi:</p>
-      <div className="p-16 border-2 border-solid border-gray-200 shadow-lg min-h-40rem]">
+      <div className=" relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem]">
         <div className="flex flex-col lg:flex-row gap-36">
           <div className="flex flex-col gap-5">
             <button
@@ -80,6 +82,9 @@ function Page() {
             )}
           </div>
         </div>
+        <Link href="/vehicle" className="absolute bottom-10">
+          <Button>Przejdź dalej</Button>
+        </Link>
       </div>
     </div>
   );
