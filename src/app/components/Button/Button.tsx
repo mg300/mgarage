@@ -1,10 +1,20 @@
 import React from "react";
 
-function Button({ children }: { children: React.ReactNode }) {
+function Button({
+  children,
+  color,
+  type = "button",
+}: {
+  children: React.ReactNode;
+  color: string;
+  type?: "button" | "submit" | "reset" | undefined;
+}) {
   return (
     <button
-      type="button"
-      className="text-white bg-gradient-to-r from-logo to-red-900 hover:bg-gradient-to-tl font-semibold rounded-lg text-base px-5 py-2.5 text-center mr-2 mb-2 font-sans"
+      type={type}
+      className={`text-white bg-gradient-to-r ${
+        color === "red" ? " from-logo to-red-900" : "from-blue-600 to-blue-900"
+      } hover:bg-gradient-to-tl font-semibold rounded-lg text-base px-5 py-2.5 text-center mr-2 mb-2 font-sans focus:ring-4`}
     >
       {children}
     </button>
