@@ -113,19 +113,18 @@ function Page() {
   } = useForm<IVehicle>();
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
-      <p className="text-logo font-semibold text-2xl mb-10">Wprowadź dane pojazdu i obsługi:</p>
+      <p className="text-logo font-semibold text-2xl mb-10">Wprowadź dane pojazdu:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
         <form onSubmit={handleSubmit((data) => console.log(data))}>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             {data.map((input) => (
               <div key={input.id}>
-                <label htmlFor={input.id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor={input.id} className="block mb-2 text-sm font-medium text-gray-90">
                   {input.label}
                 </label>
                 <input
                   type="text"
                   id={input.id}
-                  key={input.id}
                   {...register(input.id, {
                     required: input.required && "This field is required",
                     minLength: input.minLength,
@@ -137,7 +136,7 @@ function Page() {
                         }
                       : undefined,
                   })}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder={input.placeholder}
                 />
               </div>
@@ -148,9 +147,11 @@ function Page() {
               Powrót
             </Button>
           </Link>
-          <Button type="submit" color="red">
-            Przejdź dalej
-          </Button>
+          <Link href="/book/vehicle/aditional">
+            <Button type="submit" color="red">
+              Przejdź dalej
+            </Button>
+          </Link>
         </form>
       </div>
     </div>
