@@ -2,58 +2,62 @@
 import React, { useState } from "react";
 import Button from "../components/Button/Button";
 import Link from "next/link";
-
+import { useForm } from "react-hook-form";
+interface IData {
+  serviceIDs: string[];
+}
 function Page() {
-  const [clicked, setClicked] = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
-  const handleClick = function (arg: string) {
-    const result = selected.find((value) => value === arg);
-    if (clicked == arg) setClicked("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IData>();
 
-    if (!result) {
-      setClicked(arg);
-      setSelected([...selected, arg]);
-    }
-    if (result) {
-      const newSelected = selected.filter((item) => item !== arg);
-      setSelected(newSelected);
-    }
-  };
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Dostępne usługi:</p>
       <div className=" relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
         <div className="flex flex-col lg:flex-row gap-36">
-          <div className="flex flex-col gap-5">
-            <button
-              onClick={() => handleClick("oil")}
-              className={`flex justify-between items-center min-w-[30rem] h-[6rem] px-10 border-2 border-solid  
-            ${selected.includes("oil") ? "border-logo " : "border-gray-300"} rounded-[2rem] cursor-pointer `}
-            >
-              <p className=" text-sm lg:text-lg text-gray-600">Wymiana oleju silnikowego</p>
-              <div>
-                <p className=" text-sm lg:text-lg text-gray-600">od 500,00 zł</p>
-                <p className=" text-sm text-gray-600">1h</p>
-              </div>
-            </button>
-            <button
-              onClick={() => handleClick("fuel")}
-              className={`flex justify-between items-center min-w-[30rem] h-[6rem] px-10 border-2 border-solid  ${
-                selected.includes("fuel") ? "border-logo " : "border-gray-300"
-              } rounded-[2rem] cursor-pointer `}
-            >
-              <p className=" text-sm lg:text-lg text-gray-600">Wymiana oleju silnikowego</p>
-              <div>
-                <p className=" text-sm lg:text-lg text-gray-600">od 500,00 zł</p>
-                <p className=" text-sm text-gray-600">1h</p>
-              </div>
-            </button>
-          </div>
+          <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <ul className="flex flex-col gap-5">
+              <li>
+                <input type="checkbox" id="oil" value="" className="hidden peer" />
+                <label
+                  onClick={() => {}}
+                  htmlFor="oil"
+                  className={`flex justify-between items-center min-w-[30rem] h-[6rem] px-10 border-2 border-solid  
+                             peer-checked:border-red-400 peer-checked:text-red-800 text-gray-600 rounded-[2rem] cursor-pointer `}
+                >
+                  <p className="text-sm lg:text-lg">Wymiana oleju silnikowego</p>
+                  <div>
+                    <p className="text-sm lg:text-lg">od 500,00 zł</p>
+                    <p className="text-sm">1h</p>
+                  </div>
+                </label>
+              </li>
+
+              <li>
+                <input type="checkbox" id="fuel" value="" className="hidden peer" />
+                <label
+                  onClick={() => {}}
+                  htmlFor="fuel"
+                  className={`flex justify-between items-center min-w-[30rem] h-[6rem] px-10 border-2 border-solid  
+                           peer-checked:border-red-400 peer-checked:text-red-800 text-gray-600 rounded-[2rem] cursor-pointer `}
+                >
+                  <p className="text-sm lg:text-lg">Wymiana oleju w skrzyni biegów</p>
+                  <div>
+                    <p className="text-sm lg:text-lg">od 500,00 zł</p>
+                    <p className="text-sm">1h</p>
+                  </div>
+                </label>
+              </li>
+            </ul>
+          </form>
           <div>
-            {clicked !== "" && (
+            {
               <>
                 <p className="text-logo font-semibold text-2xl mb-10">Wymiana oleju silnikowego</p>
-
                 <div>
                   <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
                     <div className="leading-snug md:leading-normal p-4">
@@ -79,7 +83,7 @@ function Page() {
                   </ul>
                 </div>
               </>
-            )}
+            }
           </div>
         </div>
         <Link href="/book/vehicle" className="absolute bottom-10">
