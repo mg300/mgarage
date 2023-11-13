@@ -6,10 +6,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface IData {
   serviceIDs: string[];
 }
+interface IService {
+  id: string;
+  title: string;
+  time: string;
+  price: number;
+  description: JSX.Element;
+}
 function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const data = [
+  const data: IService[] = [
     {
       id: "1",
       title: "Wymiana oleju silnikowego",
