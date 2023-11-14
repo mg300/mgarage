@@ -14,6 +14,7 @@ interface IService {
   description: JSX.Element;
 }
 function Page() {
+  const [indexOfDescr, setIndexOfDescr] = useState<number | null>(null);
   const router = useRouter();
   const [info, setInfo] = useState(false);
   const searchParams = useSearchParams();
@@ -263,8 +264,13 @@ function Page() {
   const handleCheck = function (id: string) {
     if (IDs.includes(id)) {
       IDs = IDs.filter((item) => item !== id);
+      setIndexOfDescr(null);
     } else {
       IDs.push(id);
+      const index = data.findIndex((service) => service.id === id);
+      console.log(index);
+
+      setIndexOfDescr(index);
     }
     router.replace(`?IDs=${IDs.join(",")}`, { scroll: false });
   };
@@ -287,7 +293,7 @@ function Page() {
                   />
                   <label
                     htmlFor={service.id.toString()}
-                    className={`flex justify-between gap-10 items-center min-w-[30rem] h-[6rem] px-10 border-2 border-solid  
+                    className={`flex justify-between gap-10 items-center lg:w-[30rem] h-[6rem] px-10 border-2 border-solid  
                     peer-checked:border-red-400 peer-checked:text-red-800 text-gray-600 rounded-[2rem] cursor-pointer `}
                   >
                     <p className="text-sm lg:text-lg">{service.title}</p>
@@ -300,7 +306,7 @@ function Page() {
               ))}
             </ul>
           </form>
-          <div></div>
+          <div>{indexOfDescr !== null && indexOfDescr >= 0 && data[indexOfDescr]?.description}</div>
         </div>
         {info && <p className="text-red-700 text-lg mb-10">Nie zaznaczono żadnej pozycji</p>}
         <Link
