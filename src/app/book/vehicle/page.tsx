@@ -3,6 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import Button from "../../components/Button/Button";
+import { useRouter, useSearchParams } from "next/navigation";
 interface IVehicle {
   mark: string;
   model: string;
@@ -24,6 +25,8 @@ interface input {
   pattern?: RegExp;
 }
 function Page() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const data: input[] = [
     {
       label: "Marka",
@@ -104,41 +107,34 @@ function Page() {
       pattern: /^[A-Z0-9]{6,10}$/,
     },
   ];
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<IVehicle>();
+  console.log(searchParams.entries());
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Wprowadź dane pojazdu:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <form onSubmit={handleSubmit((data) => router.push(`/aditional?${searchParams}`))}>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             {data.map((input) => (
               <div key={input.id}>
-                <label htmlFor={input.id} className="block mb-2 text-sm font-medium text-gray-90">
+                <label htmlFor={input.id} className="block mb-2 text-sm font-medium text-gray-900">
                   {input.label}
                 </label>
                 <input
                   type="text"
                   id={input.id}
-                  {...register(input.id, {
-                    required: input.required && "This field is required",
-                    minLength: input.minLength,
-                    maxLength: input.maxLength,
-                    pattern: input.pattern
-                      ? {
-                          value: input.pattern,
-                          message: "Invalid pattern",
-                        }
-                      : undefined,
-                  })}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  {...register(input.id, {})}
+                  className={` ${
+                    errors[input.id] ? "border-red-400 border-2" : "border-gray-400"
+                  } bg-gray-100 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
                   placeholder={input.placeholder}
                 />
+                <p className="text-red-600">{errors[input.id]?.message}</p>
               </div>
             ))}
           </div>
@@ -147,11 +143,9 @@ function Page() {
               Powrót
             </Button>
           </Link>
-          <Link href="/book/vehicle/aditional">
-            <Button type="submit" color="red">
-              Przejdź dalej
-            </Button>
-          </Link>
+          <Button type="submit" color="red">
+            Przejdź dalej
+          </Button>
         </form>
       </div>
     </div>
