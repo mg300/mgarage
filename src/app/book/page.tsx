@@ -25,7 +25,7 @@ function Page() {
       time: "1h",
       price: 500,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana oleju silnikowego</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -46,7 +46,7 @@ function Page() {
               <li>Kontrolę poziomu oleju i sprawdzenie wycieków</li>
             </ul>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -55,7 +55,7 @@ function Page() {
       time: "0.5h",
       price: 150,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana filtru powietrza</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -65,7 +65,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -74,7 +74,7 @@ function Page() {
       time: "1.5h",
       price: 300,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana płynu chłodniczego</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -84,7 +84,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -93,7 +93,7 @@ function Page() {
       time: "1h",
       price: 250,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana płynu hamulcowego</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -103,7 +103,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -112,7 +112,7 @@ function Page() {
       time: "0.5h",
       price: 100,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Diagnostyka komputerowa</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -122,7 +122,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -131,7 +131,7 @@ function Page() {
       time: "2h",
       price: 1000,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana rozrządu</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -141,7 +141,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -150,7 +150,7 @@ function Page() {
       time: "1.5h",
       price: 350,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Naprawa układu wydechowego</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -160,7 +160,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -169,7 +169,7 @@ function Page() {
       time: "2h",
       price: 450,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana amortyzatorów</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -179,7 +179,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -188,7 +188,7 @@ function Page() {
       time: "1h",
       price: 120,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana świec zapłonowych</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -198,7 +198,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -207,7 +207,7 @@ function Page() {
       time: "1.5h",
       price: 400,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana tarcz i klocków hamulcowych</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -217,7 +217,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -226,7 +226,7 @@ function Page() {
       time: "2h",
       price: 350,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana sprężyny zawieszenia</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -236,7 +236,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
     {
@@ -245,7 +245,7 @@ function Page() {
       time: "1.5h",
       price: 300,
       description: (
-        <>
+        <div className="sticky top-10">
           <p className="text-logo font-semibold text-2xl mb-10">Wymiana łożysk kół</p>
           <div>
             <div className="bg-gray-200 rounded-3xl px-4 pt-2 pb-2.5">
@@ -255,7 +255,7 @@ function Page() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ),
     },
   ];
@@ -306,7 +306,9 @@ function Page() {
               ))}
             </ul>
           </form>
-          <div>{indexOfDescr !== null && indexOfDescr >= 0 && data[indexOfDescr]?.description}</div>
+          <div className="sticky top-10">
+            {indexOfDescr !== null && indexOfDescr >= 0 && data[indexOfDescr]?.description}
+          </div>
         </div>
         {info && <p className="text-red-700 text-lg mb-10">Nie zaznaczono żadnej pozycji</p>}
         <Link
