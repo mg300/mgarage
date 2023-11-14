@@ -15,6 +15,7 @@ interface IService {
 }
 function Page() {
   const router = useRouter();
+  const [info, setInfo] = useState(false);
   const searchParams = useSearchParams();
   const data: IService[] = [
     {
@@ -301,8 +302,20 @@ function Page() {
           </form>
           <div></div>
         </div>
-        <Link href={`/book/vehicle/?IDs${IDs.join(",")}`} className="absolute bottom-10">
-          <Button color="red">Przejdź dalej</Button>
+        {info && <p className="text-red-700 text-lg mb-10">Nie zaznaczono żadnej pozycji</p>}
+        <Link
+          scroll={false}
+          href={IDs.length > 0 ? `/book/vehicle/?IDs${IDs.join(",")}` : `/book`}
+          className="absolute bottom-10"
+        >
+          <Button
+            onClick={() => {
+              if (IDs.length === 0) setInfo(true);
+            }}
+            color="red"
+          >
+            Przejdź dalej
+          </Button>
         </Link>
       </div>
     </div>
