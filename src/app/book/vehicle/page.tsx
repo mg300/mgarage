@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import Button from "../../components/Button/Button";
@@ -112,6 +112,7 @@ function Page() {
     handleSubmit,
     watch,
     formState: { errors },
+    setValue,
   } = useForm<IVehicle>();
   const prevParams = `IDs=${searchParams.get("IDs")}`;
 
@@ -120,9 +121,13 @@ function Page() {
       .filter(([key, value]) => value !== "" && value !== undefined)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join("&");
-    console.log(queryParams);
-    router.replace(`?${encodeURIComponent(prevParams)}&${queryParams}`);
+    router.push(`/book/vehicle/aditional?${encodeURIComponent(prevParams)}&${queryParams}`);
   };
+  useEffect(() => {
+    searchParams.forEach((value: string, key: string) => {
+      setValue(key as keyof IVehicle, value);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -158,7 +163,12 @@ function Page() {
               </div>
             ))}
           </div>
-          <Link href="/book">
+          <Link
+            href={{
+              pathname: "/book",
+              search: searchParams.toString(),
+            }}
+          >
             <Button type="button" color="blue">
               Powrót
             </Button>
