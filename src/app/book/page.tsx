@@ -261,6 +261,7 @@ function Page() {
   ];
   const selectedServices = searchParams.get("IDs");
   let IDs: string[] = selectedServices ? selectedServices.split(",") : [];
+
   const handleCheck = function (id: string) {
     if (IDs.includes(id)) {
       IDs = IDs.filter((item) => item !== id);
@@ -272,7 +273,8 @@ function Page() {
 
       setIndexOfDescr(index);
     }
-    router.replace(`?IDs=${IDs.join(",")}`, { scroll: false });
+
+    router.replace(`?IDs=${encodeURIComponent(IDs.join(","))}`, { scroll: false });
   };
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -312,9 +314,15 @@ function Page() {
         </div>
         {info && <p className="text-red-700 text-lg mb-10">Nie zaznaczono żadnej pozycji</p>}
         <Link
-          scroll={false}
-          href={IDs.length > 0 ? `/book/vehicle/?IDs${IDs.join(",")}` : `/book`}
-          className="absolute bottom-10"
+          scroll={IDs.length === 0 ? false : true}
+          href={
+            IDs.length > 0
+              ? {
+                  pathname: "/book/vehicle",
+                  search: `?IDs=${encodeURIComponent(IDs.join(","))}`,
+                }
+              : "/book"
+          }
         >
           <Button
             onClick={() => {
