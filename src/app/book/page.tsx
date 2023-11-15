@@ -297,7 +297,7 @@ function Page() {
                     peer-checked:border-red-400 peer-checked:text-red-800 text-gray-600 rounded-[2rem] cursor-pointer `}
                   >
                     <p className="text-sm lg:text-lg">{service.title}</p>
-                    <div>
+                    <div className="min-w-[7rem] text-right">
                       <p className="text-sm lg:text-lg">od {service.price.toFixed(2)} zł</p>
                       <p className="text-sm">{service.time}</p>
                     </div>
