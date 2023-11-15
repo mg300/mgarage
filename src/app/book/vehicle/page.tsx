@@ -113,12 +113,22 @@ function Page() {
     watch,
     formState: { errors },
   } = useForm<IVehicle>();
-  console.log(searchParams.entries());
+  const prevParams = `IDs=${searchParams.get("IDs")}`;
+
+  const onSubmit = (data: IVehicle) => {
+    const queryParams = Object.entries(data)
+      .filter(([key, value]) => value !== "" && value !== undefined)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+      .join("&");
+    console.log(queryParams);
+    router.replace(`?${encodeURIComponent(prevParams)}&${queryParams}`);
+  };
+
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Wprowadź dane pojazdu:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
-        <form onSubmit={handleSubmit((data) => router.push(`/aditional?${searchParams}`))}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             {data.map((input) => (
               <div key={input.id}>
@@ -128,7 +138,17 @@ function Page() {
                 <input
                   type="text"
                   id={input.id}
-                  {...register(input.id, {})}
+                  {...register(input.id, {
+                    required: input.required && "Pole nie może być puste",
+                    minLength: { value: input.minLength, message: "Pole ma za mało znaków" },
+                    maxLength: { value: input.maxLength, message: "Pole ma za dużo znaków" },
+                    pattern: input.pattern
+                      ? {
+                          value: input.pattern,
+                          message: "Wprowadzono niepoprawne dane",
+                        }
+                      : undefined,
+                  })}
                   className={` ${
                     errors[input.id] ? "border-red-400 border-2" : "border-gray-400"
                   } bg-gray-100 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
