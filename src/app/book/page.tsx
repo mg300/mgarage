@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../components/Button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,6 +18,18 @@ function Page() {
   const router = useRouter();
   const [info, setInfo] = useState(false);
   const searchParams = useSearchParams();
+  const result = useRef("");
+  useEffect(() => {
+    const startIndex = searchParams.toString().indexOf("IDs=");
+    console.log(searchParams.toString());
+    const endIndex = searchParams.toString().indexOf("&", startIndex) + 1;
+    console.log(result.current);
+    console.log(startIndex, endIndex);
+    if (startIndex !== -1 && endIndex !== -1) {
+      result.current = searchParams.toString().substring(0, startIndex) + searchParams.toString().substring(endIndex);
+    }
+  }, []);
+
   const data: IService[] = [
     {
       id: "1",
@@ -263,6 +275,7 @@ function Page() {
   let IDs: string[] = selectedServices ? selectedServices.split(",") : [];
 
   const handleCheck = function (id: string) {
+    setInfo(false);
     if (IDs.includes(id)) {
       IDs = IDs.filter((item) => item !== id);
       setIndexOfDescr(null);
@@ -273,8 +286,11 @@ function Page() {
 
       setIndexOfDescr(index);
     }
+    console.log(result.current);
 
-    router.replace(`?IDs=${encodeURIComponent(IDs.join(","))}`, { scroll: false });
+    router.replace(`?IDs=${encodeURIComponent(IDs.join(","))}${result.current ? "&" + result.current : ""}`, {
+      scroll: false,
+    });
   };
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -313,26 +329,24 @@ function Page() {
           </div>
         </div>
         {info && <p className="text-red-700 text-lg mb-10">Nie zaznaczono żadnej pozycji</p>}
-        <Link
-          scroll={IDs.length === 0 ? false : true}
-          href={
-            IDs.length > 0
-              ? {
-                  pathname: "/book/vehicle",
-                  search: `?IDs=${encodeURIComponent(IDs.join(","))}`,
-                }
-              : "/book"
-          }
+
+        <Button
+          onClick={() => {
+            if (IDs.length === 0) setInfo(true);
+            if (IDs.length > 0) {
+              router.push(
+                `/book/vehicle?IDs=${encodeURIComponent(IDs.join(","))}${result.current ? "&" + result.current : ""}`
+              );
+            } else
+              router.push(
+                `/book?IDs=${encodeURIComponent(IDs.join(","))}${result.current ? "&" + result.current : ""}`,
+                { scroll: false }
+              );
+          }}
+          color="red"
         >
-          <Button
-            onClick={() => {
-              if (IDs.length === 0) setInfo(true);
-            }}
-            color="red"
-          >
-            Przejdź dalej
-          </Button>
-        </Link>
+          Przejdź dalej
+        </Button>
       </div>
     </div>
   );
