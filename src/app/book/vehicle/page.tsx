@@ -127,7 +127,7 @@ function Page() {
     searchParams.forEach((value: string, key: string) => {
       setValue(key as keyof IVehicle, value);
     });
-  }, []);
+  }, [searchParams, setValue]);
 
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">

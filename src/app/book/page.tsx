@@ -28,7 +28,7 @@ function Page() {
     if (startIndex !== -1 && endIndex !== -1) {
       result.current = searchParams.toString().substring(0, startIndex) + searchParams.toString().substring(endIndex);
     }
-  }, []);
+  }, [searchParams]);
 
   const data: IService[] = [
     {
