@@ -10,6 +10,7 @@ interface month {
   length: number;
   firstDayOfMonthNum: number;
   currentDay: number;
+  monthName: String;
 }
 
 function Page() {
@@ -19,10 +20,11 @@ function Page() {
     length: 1,
     firstDayOfMonthNum: 1,
     currentDay: 1,
+    monthName: "",
   });
   useEffect(() => {
     const currentDate = new Date();
-    currentDate.setMonth(currentDate.getMonth() - 1);
+    currentDate.setMonth(currentDate.getMonth());
     const firstDayOfMonthNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1;
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
     console.log(currentDate.getMonth(), currentDate.getDate(), daysInMonth);
@@ -31,6 +33,7 @@ function Page() {
       tempMonth.push({ number: i, hours: [] });
     }
     setMonth({
+      monthName: currentDate.toLocaleString("pl-PL", { month: "long" }),
       days: tempMonth,
       length: 1,
       firstDayOfMonthNum: +firstDayOfMonthNum,
@@ -41,6 +44,7 @@ function Page() {
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Wprowadź datę:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
+        <div className="text-3xl uppercase font-bold text-center w-[50%] mb-8 tracking-widest">{month.monthName}</div>
         <form className="flex">
           <button>prev</button>
           <div className="grid grid-cols-7 w-[50%] gap-2 justify-items-center font-semibold">
