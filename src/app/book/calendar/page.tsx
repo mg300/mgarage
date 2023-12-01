@@ -22,7 +22,7 @@ function Page() {
   });
   useEffect(() => {
     const currentDate = new Date();
-    currentDate.setMonth(currentDate.getMonth());
+    currentDate.setMonth(currentDate.getMonth() - 1);
     const firstDayOfMonthNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1;
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
     console.log(currentDate.getMonth(), currentDate.getDate(), daysInMonth);
