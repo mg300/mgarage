@@ -8,7 +8,7 @@ interface day {
 interface month {
   days: day[];
   length: number;
-  firstDayOfMonth: number;
+  firstDayOfMonthNum: number;
   currentDay: number;
 }
 
@@ -16,18 +16,24 @@ function Page() {
   const [month, setMonth] = useState<month>({
     days: [{ number: 1, hours: [1, 2, 3] }],
     length: 1,
-    firstDayOfMonth: 1,
+    firstDayOfMonthNum: 1,
     currentDay: 1,
   });
   useEffect(() => {
     const currentDate = new Date();
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+    const firstDayOfMonthNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
     const tempMonth = [];
     for (let i = 1; i <= daysInMonth; i++) {
       tempMonth.push({ number: i, hours: [] });
     }
-    setMonth({ days: tempMonth, length: 1, firstDayOfMonth: +firstDayOfMonth, currentDay: currentDate.getDate() });
+    setMonth({
+      days: tempMonth,
+      length: 1,
+      firstDayOfMonthNum: +firstDayOfMonthNum,
+      currentDay: currentDate.getDate(),
+    });
   }, []);
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -41,6 +47,9 @@ function Page() {
           <span>Pt</span>
           <span>Sob</span>
           <span>Nd</span>
+          {[...Array(month.firstDayOfMonthNum - 1)].map((_, index) => (
+            <div key={index}></div>
+          ))}
           {month.days.map((day, index) => (
             <div key={index}>
               <input
