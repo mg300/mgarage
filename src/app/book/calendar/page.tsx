@@ -6,6 +6,7 @@ interface day {
   hours: number[];
 }
 interface month {
+  year: number;
   days: day[];
   length: number;
   firstDayOfMonthNum: number;
@@ -14,39 +15,44 @@ interface month {
 }
 
 function Page() {
-  // const currentDate = useMemo(() => new Date(), []);
-  const [month, setMonth] = useState<month>({
-    days: [{ number: 1, hours: [1, 2, 3] }],
-    length: 1,
-    firstDayOfMonthNum: 1,
-    currentDay: 1,
-    monthName: "",
-  });
-  useEffect(() => {
-    const currentDate = new Date();
-    currentDate.setMonth(currentDate.getMonth());
-    const firstDayOfMonthNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1;
+  const currentDate = useMemo(() => new Date(), []);
+
+  const setMonthData = function (month: number) {
+    currentDate.setMonth(currentDate.getMonth() + month);
+    let firstDayOfMonthNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1;
+    if (firstDayOfMonthNum === -1) firstDayOfMonthNum = 6;
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-    console.log(currentDate.getMonth(), currentDate.getDate(), daysInMonth);
     const tempMonth = [];
     for (let i = 1; i <= daysInMonth; i++) {
       tempMonth.push({ number: i, hours: [] });
     }
-    setMonth({
-      monthName: currentDate.toLocaleString("pl-PL", { month: "long" }),
+    return {
+      year: currentDate.getFullYear(),
       days: tempMonth,
       length: 1,
       firstDayOfMonthNum: +firstDayOfMonthNum,
       currentDay: currentDate.getDate(),
-    });
-  }, []);
+      monthName: currentDate.toLocaleString("pl-PL", { month: "long" }),
+    };
+  };
+  const [month, setMonth] = useState<month>(setMonthData(0));
+
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Wprowadź datę:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
-        <div className="text-3xl uppercase font-bold text-center w-[50%] mb-8 tracking-widest">{month.monthName}</div>
+        <div className="text-3xl uppercase font-bold text-center w-[50%] mb-8 tracking-widest">
+          {month.monthName} {month.year}{" "}
+        </div>
         <form className="flex">
-          <button>prev</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setMonth(setMonthData(-1));
+            }}
+          >
+            prev
+          </button>
           <div className="grid grid-cols-7 w-[50%] gap-2 justify-items-center font-semibold">
             <span>Pn</span>
             <span>Wt</span>
@@ -78,7 +84,14 @@ function Page() {
               </div>
             ))}
           </div>
-          <button>next</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setMonth(setMonthData(1));
+            }}
+          >
+            prev
+          </button>
         </form>
       </div>
     </div>
