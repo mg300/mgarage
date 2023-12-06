@@ -10,13 +10,13 @@ interface month {
   days: day[];
   length: number;
   firstDayOfMonthNum: number;
-  currentDay: number;
+  realDay: number;
   monthName: String;
 }
 
 function Page() {
+  const realDate = useMemo(() => new Date(), []);
   const currentDate = useMemo(() => new Date(), []);
-
   const setMonthData = function (month: number) {
     currentDate.setMonth(currentDate.getMonth() + month);
     let firstDayOfMonthNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1;
@@ -31,7 +31,7 @@ function Page() {
       days: tempMonth,
       length: 1,
       firstDayOfMonthNum: +firstDayOfMonthNum,
-      currentDay: currentDate.getDate(),
+      realDay: realDate.getDate(),
       monthName: currentDate.toLocaleString("pl-PL", { month: "long" }),
     };
   };
@@ -46,6 +46,7 @@ function Page() {
         </div>
         <form className="flex">
           <button
+            disabled={realDate.getMonth() === currentDate.getMonth()}
             onClick={(e) => {
               e.preventDefault();
               setMonth(setMonthData(-1));
@@ -71,11 +72,11 @@ function Page() {
                   id={day.number.toString()}
                   name="day"
                   type="radio"
-                  disabled={index < month.currentDay}
+                  disabled={index < month.realDay}
                 />
                 <label
                   className={`block cursor-pointer text-center peer-checked:text-red-800 w-[3rem] h-[3rem] peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold ${
-                    index < month.currentDay ? "text-gray-400 " : "text-gray-700 "
+                    index < month.realDay ? "text-gray-400 " : "text-gray-700 "
                   }`}
                   htmlFor={day.number.toString()}
                 >
