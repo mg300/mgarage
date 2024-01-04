@@ -14,6 +14,10 @@ interface calendarData {
   prevMonthDays: number[];
   nextMonthDays: number[];
 }
+interface availableDate {
+  date: Date;
+  hours: Date[];
+}
 function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -79,10 +83,42 @@ function Page() {
     prevMonthDays: getPrevMonthDays(),
     nextMonthDays: getNextMonthDays(),
   };
+  function fetchDate() {
+    const availableDate: availableDate[] = [
+      {
+        date: new Date(2024, 1, 10),
+        hours: [
+          new Date(0, 0, 0, 11, 30),
+          new Date(0, 0, 0, 12, 50),
+          new Date(0, 0, 0, 14, 30),
+          new Date(0, 0, 0, 16, 30),
+        ],
+      },
+      {
+        date: new Date(2024, 1, 11),
+        hours: [
+          new Date(0, 0, 0, 11, 30),
+          new Date(0, 0, 0, 12, 50),
+          new Date(0, 0, 0, 14, 30),
+          new Date(0, 0, 0, 16, 30),
+        ],
+      },
+      {
+        date: new Date(2024, 1, 12),
+        hours: [
+          new Date(0, 0, 0, 11, 30),
+          new Date(0, 0, 0, 12, 50),
+          new Date(0, 0, 0, 14, 30),
+          new Date(0, 0, 0, 16, 30),
+        ],
+      },
+    ];
+    return availableDate[0].hours;
+  }
   const prevParams = `IDs=${searchParams.get("IDs")}`;
   function onSubmit() {
-    console.log(calendarDate);
-
+    console.log(calendarDate.toDateString());
+    calendarDate.toDateString;
     // const queryParams = Object.entries(data)
     //   .filter(([key, value]) => value !== "" && value !== undefined)
     //   .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
@@ -94,98 +130,115 @@ function Page() {
       <p className="text-logo font-semibold text-2xl mb-10">Wprowadź datę:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20 ">
         <form onSubmit={() => onSubmit()}>
-          <div className="flex flex-col gap-10 items-center">
-            <div className="text-3xl uppercase font-bold text-centermb-8 tracking-widest">{calendarData.monthName}</div>
-            <div className="flex gap-4">
-              <button
-                className="text-4xl"
-                disabled={
-                  calendarDate.getMonth() === currentDate.getMonth() &&
-                  calendarDate.getFullYear() === calendarDate.getFullYear()
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPrevMonth();
-                }}
-              >
-                <GrPrevious />
-              </button>
-              <div className="grid grid-cols-7 min-w-[20rem] gap-2 justify-items-center font-semibold">
-                <span>Pn</span>
-                <span>Wt</span>
-                <span>Śr</span>
-                <span>Czw</span>
-                <span>Pt</span>
-                <span>Sob</span>
-                <span>Nd</span>
-                {calendarData.prevMonthDays.map((day, index) => (
+          <div className="flex gap-20">
+            <div className="flex flex-col w-50 items-center">
+              <div className="text-3xl uppercase font-bold mb-8 tracking-widest">
+                {calendarData.monthName} {calendarDate.getFullYear()}
+              </div>
+              <div className="flex gap-4">
+                <button
+                  className="text-4xl"
+                  disabled={
+                    calendarDate.getMonth() === currentDate.getMonth() &&
+                    calendarDate.getFullYear() === calendarDate.getFullYear()
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPrevMonth();
+                  }}
+                >
+                  <GrPrevious />
+                </button>
+                <div className="grid grid-cols-7 min-w-[20rem] gap-2 justify-items-center font-semibold">
+                  <span>Pn</span>
+                  <span>Wt</span>
+                  <span>Śr</span>
+                  <span>Czw</span>
+                  <span>Pt</span>
+                  <span>Sob</span>
+                  <span>Nd</span>
+                  {calendarData.prevMonthDays.map((day, index) => (
+                    <div key={index}>
+                      <input
+                        className="hidden"
+                        id={day.toString() + "p"}
+                        name="day"
+                        type="radio"
+                        onClick={() => setPrevMonth()}
+                      />
+                      <label
+                        className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
+                        htmlFor={day.toString() + "p"}
+                      >
+                        {day}
+                      </label>
+                    </div>
+                  ))}
+                  {calendarData.days.map((day, index) => (
+                    <div key={index}>
+                      <input
+                        className="hidden peer"
+                        id={day.toString() + "c"}
+                        name="day"
+                        type="radio"
+                        disabled={!checkDayIsActive(index)}
+                        onClick={() => {
+                          setCalendarDate(
+                            (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth(), index + 1)
+                          );
+                        }}
+                      />
+                      <label
+                        className={`block cursor-pointer text-center peer-checked:text-red-800 w-[3rem] h-[3rem] peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold ${
+                          checkDayIsActive(index) ? "text-gray-700 " : "text-gray-400 "
+                        }`}
+                        htmlFor={day.toString() + "c"}
+                      >
+                        {day}
+                      </label>
+                    </div>
+                  ))}
+                  {calendarData.nextMonthDays.map((day, index) => (
+                    <div key={index}>
+                      <input
+                        className="hidden"
+                        id={day.toString() + "n"}
+                        name="day"
+                        type="radio"
+                        onClick={() => setNextMonth()}
+                      />
+                      <label
+                        className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
+                        htmlFor={day.toString() + "n"}
+                      >
+                        {day}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="text-4xl"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setNextMonth();
+                  }}
+                >
+                  <GrNext />
+                </button>
+              </div>
+            </div>
+            <div>
+              <p className="text-logo font-semibold text-2xl mb-10">Dostępne godziny:</p>
+              <div className="flex gap-5">
+                {fetchDate().map((date, index) => (
                   <div key={index}>
-                    <input
-                      className="hidden"
-                      id={day.toString() + "p"}
-                      name="day"
-                      type="radio"
-                      onClick={() => setPrevMonth()}
-                    />
-                    <label
-                      className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
-                      htmlFor={day.toString() + "p"}
-                    >
-                      {day}
-                    </label>
-                  </div>
-                ))}
-                {calendarData.days.map((day, index) => (
-                  <div key={index}>
-                    <input
-                      className="hidden peer"
-                      id={day.toString() + "c"}
-                      name="day"
-                      type="radio"
-                      disabled={!checkDayIsActive(index)}
-                      onClick={() => {
-                        // setCalendarDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth(), index));
-                      }}
-                    />
-                    <label
-                      className={`block cursor-pointer text-center peer-checked:text-red-800 w-[3rem] h-[3rem] peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold ${
-                        checkDayIsActive(index) ? "text-gray-700 " : "text-gray-400 "
-                      }`}
-                      htmlFor={day.toString() + "c"}
-                    >
-                      {day}
-                    </label>
-                  </div>
-                ))}
-                {calendarData.nextMonthDays.map((day, index) => (
-                  <div key={index}>
-                    <input
-                      className="hidden"
-                      id={day.toString() + "n"}
-                      name="day"
-                      type="radio"
-                      onClick={() => setNextMonth()}
-                    />
-                    <label
-                      className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
-                      htmlFor={day.toString() + "n"}
-                    >
-                      {day}
-                    </label>
+                    {date.getHours()}: {date.getMinutes()}
                   </div>
                 ))}
               </div>
-              <button
-                className="text-4xl"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setNextMonth();
-                }}
-              >
-                <GrNext />
-              </button>
             </div>
           </div>
+
           <div className="mt-20">
             <Link
               href={{
@@ -197,7 +250,7 @@ function Page() {
                 Powrót
               </Button>
             </Link>
-            <Button type="submit" color="red">
+            <Button onClick={() => onSubmit()} color="red">
               Przejdź dalej
             </Button>
           </div>
