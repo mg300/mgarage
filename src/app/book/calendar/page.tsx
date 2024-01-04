@@ -5,8 +5,10 @@ import React, { useEffect, useMemo, useState } from "react";
 interface calendarData {
   year: number;
   days: number[];
-  firstMonthDayIndex: number;
+  firstDayIndex: number;
   monthName: String;
+  prevMonthDays: number[];
+  nextMonthDays: number[];
 }
 function Page() {
   const currentDate = new Date();
@@ -19,14 +21,35 @@ function Page() {
     }
     return daysArray;
   }
-  function getfirstMonthDayIndex(): number {
-    let index = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1).getDay();
+  function getPrevMonthDays(): number[] {
+    const prevDate: Date = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1);
+    const daysInMonth = new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 0).getDate();
+    const firstDayIndex = getfirstDayIndex(calendarDate);
+    let daysArr = [];
+    for (let i = firstDayIndex - 1; i >= 0; i--) {
+      daysArr.push(daysInMonth - i);
+    }
+
+    return daysArr;
+  }
+  function getNextMonthDays(): number[] {
+    const daysInMonth = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDate();
+    const firstDayIndex = getfirstDayIndex(calendarDate);
+    let daysArr = [];
+    for (let i = 1; i <= 42 - daysInMonth - firstDayIndex; i++) {
+      daysArr.push(i);
+    }
+    return daysArr;
+  }
+  function getfirstDayIndex(date: Date): number {
+    let index = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     if (index === 0) index = 7;
     return index - 1;
   }
   function getMonthName(): String {
     return calendarDate.toLocaleString("pl-PL", { month: "long" });
   }
+
   function setNextMonth() {
     setCalendarDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1));
   }
@@ -35,15 +58,19 @@ function Page() {
   }
   function checkDayIsActive(index: number): boolean {
     if (currentDate < calendarDate) return true;
-    if (index > calendarDate.getDate()) return true;
+    if (index >= currentDate.getDate()) {
+      return true;
+    }
     return false;
   }
 
   const calendarData: calendarData = {
     year: calendarDate.getFullYear(),
     days: getMonthDays(),
-    firstMonthDayIndex: getfirstMonthDayIndex(),
+    firstDayIndex: getfirstDayIndex(calendarDate),
     monthName: getMonthName(),
+    prevMonthDays: getPrevMonthDays(),
+    nextMonthDays: getNextMonthDays(),
   };
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -72,17 +99,54 @@ function Page() {
             <span>Pt</span>
             <span>Sob</span>
             <span>Nd</span>
-            {[...Array(calendarData.firstMonthDayIndex)].map((_, index) => (
-              <div key={index}></div>
+            {calendarData.prevMonthDays.map((day, index) => (
+              <div key={index}>
+                <input
+                  className="hidden peer"
+                  id={day.toString()}
+                  name="day"
+                  type="radio"
+                  onClick={() => setPrevMonth()}
+                />
+                <label
+                  className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
+                  htmlFor={day.toString()}
+                >
+                  {day}
+                </label>
+              </div>
             ))}
             {calendarData.days.map((day, index) => (
               <div key={index}>
-                <input className="hidden peer" id={day.toString()} name="day" type="radio" disabled={false} />
+                <input
+                  className="hidden peer"
+                  id={day.toString()}
+                  name="day"
+                  type="radio"
+                  disabled={!checkDayIsActive(index)}
+                />
                 <label
                   className={`block cursor-pointer text-center peer-checked:text-red-800 w-[3rem] h-[3rem] peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold ${
                     checkDayIsActive(index) ? "text-gray-700 " : "text-gray-400 "
                   }`}
                   htmlFor={day.toString()}
+                >
+                  {day}
+                </label>
+              </div>
+            ))}
+            {calendarData.nextMonthDays.map((day, index) => (
+              <div key={index}>
+                <input
+                  className="hidden"
+                  id={(day + 30).toString()}
+                  name="day"
+                  type="radio"
+                  onClick={() => setNextMonth()}
+                />
+                <label
+                  className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
+                  htmlFor={(day + 30).toString()}
                 >
                   {day}
                 </label>
