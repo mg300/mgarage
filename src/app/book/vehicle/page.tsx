@@ -121,7 +121,7 @@ function Page() {
       .filter(([key, value]) => value !== "" && value !== undefined)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join("&");
-    router.push(`/book/aditional?${encodeURIComponent(prevParams)}&${queryParams}`);
+    router.push(`/book/calendar?${encodeURIComponent(prevParams)}&${queryParams}`);
   };
   useEffect(() => {
     searchParams.forEach((value: string, key: string) => {
