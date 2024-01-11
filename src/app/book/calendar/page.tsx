@@ -260,7 +260,7 @@ function Page() {
                       }}
                     />
                     <label
-                      className={`block cursor-pointer text-center peer-checked:text-red-800 peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold `}
+                      className={`block cursor-pointer text-center peer-checked:text-red-800 border-2 p-3 peer-checked:border-red-500 rounded-xl font-bold `}
                       htmlFor={index + "hour"}
                     >
                       {date.getHours()}:{date.getMinutes()}
