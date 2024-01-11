@@ -21,9 +21,11 @@ interface availableDate {
 function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const currentDate = new Date();
   const [calendarDate, setCalendarDate] = useState(new Date());
+  const [hours, setHours] = useState<Date[]>([]);
+  const [dateIsSelected, setDateIsSelected] = useState(false);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   function getMonthDays(): number[] {
     const daysInMonth = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDate();
     const daysArray: number[] = [];
@@ -83,10 +85,19 @@ function Page() {
     prevMonthDays: getPrevMonthDays(),
     nextMonthDays: getNextMonthDays(),
   };
-  function fetchDate() {
+  useEffect(() => {
     const availableDate: availableDate[] = [
       {
-        date: new Date(2024, 1, 10),
+        date: new Date(2024, 0, 15),
+        hours: [
+          new Date(0, 0, 0, 11, 30),
+          new Date(0, 0, 0, 18, 50),
+          new Date(0, 0, 0, 14, 30),
+          new Date(0, 0, 0, 16, 30),
+        ],
+      },
+      {
+        date: new Date(2024, 0, 16),
         hours: [
           new Date(0, 0, 0, 11, 30),
           new Date(0, 0, 0, 12, 50),
@@ -95,26 +106,23 @@ function Page() {
         ],
       },
       {
-        date: new Date(2024, 1, 11),
+        date: new Date(2024, 0, 17),
         hours: [
           new Date(0, 0, 0, 11, 30),
-          new Date(0, 0, 0, 12, 50),
-          new Date(0, 0, 0, 14, 30),
-          new Date(0, 0, 0, 16, 30),
-        ],
-      },
-      {
-        date: new Date(2024, 1, 12),
-        hours: [
-          new Date(0, 0, 0, 11, 30),
-          new Date(0, 0, 0, 12, 50),
+          new Date(0, 0, 0, 17, 50),
           new Date(0, 0, 0, 14, 30),
           new Date(0, 0, 0, 16, 30),
         ],
       },
     ];
-    return availableDate[0].hours;
-  }
+    const selectedDate = availableDate.filter((dateObj) => dateObj.date.getTime() == calendarDate.getTime());
+    if (selectedDate.length !== 0) {
+      setHours(selectedDate[0].hours);
+    } else {
+      setHours([]);
+    }
+  }, [calendarDate]);
+
   const prevParams = `IDs=${searchParams.get("IDs")}`;
   function onSubmit() {
     console.log(calendarDate.toDateString());
@@ -186,10 +194,12 @@ function Page() {
                           setCalendarDate(
                             (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth(), index + 1)
                           );
+                          setDateIsSelected(true);
                         }}
                       />
                       <label
-                        className={`block cursor-pointer text-center peer-checked:text-red-800 w-[3rem] h-[3rem] peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold ${
+                        className={`block cursor-pointer text-center peer-checked:text-red-800 w-[3rem] h-[3rem]
+                        border-2 p-3 peer-checked:border-red-500 rounded-xl font-bold ${
                           checkDayIsActive(index) ? "text-gray-700 " : "text-gray-400 "
                         }`}
                         htmlFor={day.toString() + "c"}
@@ -230,11 +240,37 @@ function Page() {
             <div>
               <p className="text-logo font-semibold text-2xl mb-10">Dostępne godziny:</p>
               <div className="flex gap-5">
-                {fetchDate().map((date, index) => (
+                {hours.map((date, index) => (
                   <div key={index}>
-                    {date.getHours()}: {date.getMinutes()}
+                    <input
+                      className="hidden peer"
+                      id={index + "hour"}
+                      name="hours"
+                      type="radio"
+                      onClick={() => {
+                        setEndDate(
+                          new Date(
+                            calendarDate.getFullYear(),
+                            calendarDate.getMonth(),
+                            calendarDate.getDate(),
+                            date.getHours(),
+                            date.getMinutes()
+                          )
+                        );
+                      }}
+                    />
+                    <label
+                      className={`block cursor-pointer text-center peer-checked:text-red-800 peer-checked:border-2 p-3 peer-checked:border-red-500 peer-checked:rounded-xl font-bold `}
+                      htmlFor={index + "hour"}
+                    >
+                      {date.getHours()}:{date.getMinutes()}
+                    </label>
                   </div>
                 ))}
+                {!dateIsSelected && <p className="text-green-600 font-semibold text-lg">Wybierz date z kalendarza</p>}
+                {hours.length === 0 && dateIsSelected && (
+                  <p className="text-red-600 font-semibold text-lg">Brak dostępnych terminów</p>
+                )}
               </div>
             </div>
           </div>
