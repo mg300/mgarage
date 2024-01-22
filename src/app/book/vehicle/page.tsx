@@ -121,7 +121,7 @@ function Page() {
       .filter(([key, value]) => value !== "" && value !== undefined)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join("&");
-    router.push(`/book/calendar?${encodeURIComponent(prevParams)}&${queryParams}`);
+    router.replace(`/book/aditional?${encodeURIComponent(prevParams)}&${queryParams}`);
   };
   useEffect(() => {
     searchParams.forEach((value: string, key: string) => {
@@ -165,7 +165,7 @@ function Page() {
           </div>
           <Link
             href={{
-              pathname: "/book",
+              pathname: "/book/calendar",
               search: searchParams.toString(),
             }}
           >

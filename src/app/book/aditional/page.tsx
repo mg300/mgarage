@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/app/components/Button/Button";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 interface IAditional {
@@ -15,6 +16,8 @@ interface input {
 }
 
 function Page() {
+  const searchParams = useSearchParams();
+
   const data: input[] = [
     {
       id: "serviceQuality",
@@ -145,14 +148,21 @@ function Page() {
               placeholder="Wpisz swoje uwagi..."
             ></textarea>
           </div>
-          <Link href="/book">
-            <Button type="button" color="blue">
-              Powrót
+          <div className="mt-20">
+            <Link
+              href={{
+                pathname: "/book/vehicle",
+                search: searchParams.toString(),
+              }}
+            >
+              <Button type="button" color="blue">
+                Powrót
+              </Button>
+            </Link>
+            <Button onClick={() => {}} color="red">
+              Zarezerwuj wizytę
             </Button>
-          </Link>
-          <Button type="submit" color="red">
-            Zarezerwuj wizyte
-          </Button>
+          </div>
         </form>
       </div>
     </div>

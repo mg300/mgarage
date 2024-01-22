@@ -88,30 +88,30 @@ function Page() {
   useEffect(() => {
     const availableDate: availableDate[] = [
       {
-        date: new Date(2024, 0, 15),
+        date: new Date(2024, 0, 30),
         hours: [
-          new Date(0, 0, 0, 11, 30),
-          new Date(0, 0, 0, 18, 50),
-          new Date(0, 0, 0, 14, 30),
-          new Date(0, 0, 0, 16, 30),
+          new Date(2024, 0, 15, 11, 30),
+          new Date(2024, 0, 15, 18, 50),
+          new Date(2024, 0, 15, 14, 30),
+          new Date(2024, 0, 15, 16, 30),
         ],
       },
       {
-        date: new Date(2024, 0, 16),
+        date: new Date(2024, 0, 31),
         hours: [
-          new Date(0, 0, 0, 11, 30),
-          new Date(0, 0, 0, 12, 50),
-          new Date(0, 0, 0, 14, 30),
-          new Date(0, 0, 0, 16, 30),
+          new Date(2024, 0, 16, 11, 30),
+          new Date(2024, 0, 16, 12, 50),
+          new Date(2024, 0, 16, 14, 30),
+          new Date(2024, 0, 16, 16, 30),
         ],
       },
       {
         date: new Date(2024, 0, 17),
         hours: [
-          new Date(0, 0, 0, 11, 30),
-          new Date(0, 0, 0, 17, 50),
-          new Date(0, 0, 0, 14, 30),
-          new Date(0, 0, 0, 16, 30),
+          new Date(2024, 0, 17, 11, 30),
+          new Date(2024, 0, 17, 17, 50),
+          new Date(2024, 0, 17, 14, 30),
+          new Date(2024, 0, 17, 16, 30),
         ],
       },
     ];
@@ -123,15 +123,12 @@ function Page() {
     }
   }, [calendarDate]);
 
-  const prevParams = `IDs=${searchParams.get("IDs")}`;
   function onSubmit() {
-    console.log(calendarDate.toDateString());
-    calendarDate.toDateString;
-    // const queryParams = Object.entries(data)
-    //   .filter(([key, value]) => value !== "" && value !== undefined)
-    //   .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-    //   .join("&");
-    // router.push(`/book/aditional?${encodeURIComponent(prevParams)}&${queryParams}`);
+    const prevParams = new URLSearchParams(searchParams);
+    prevParams.delete("date");
+    console.log(prevParams.toString());
+    const dateString = endDate?.toISOString();
+    router.push(`/book/vehicle?${prevParams}&date=${dateString}`);
   }
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -278,7 +275,7 @@ function Page() {
           <div className="mt-20">
             <Link
               href={{
-                pathname: "/book/vehicle",
+                pathname: "/book",
                 search: searchParams.toString(),
               }}
             >

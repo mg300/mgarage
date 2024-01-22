@@ -21,13 +21,11 @@ function Page() {
   const result = useRef("");
   useEffect(() => {
     const startIndex = searchParams.toString().indexOf("IDs=");
-    console.log(searchParams.toString());
     const endIndex = searchParams.toString().indexOf("&", startIndex) + 1;
-    console.log(result.current);
-    console.log(startIndex, endIndex);
     if (startIndex !== -1 && endIndex !== -1) {
       result.current = searchParams.toString().substring(0, startIndex) + searchParams.toString().substring(endIndex);
     }
+    console.log(result.current);
   }, [searchParams]);
 
   const data: IService[] = [
@@ -282,12 +280,9 @@ function Page() {
     } else {
       IDs.push(id);
       const index = data.findIndex((service) => service.id === id);
-      console.log(index);
 
       setIndexOfDescr(index);
     }
-    console.log(result.current);
-
     router.replace(`?IDs=${encodeURIComponent(IDs.join(","))}${result.current ? "&" + result.current : ""}`, {
       scroll: false,
     });
@@ -335,7 +330,7 @@ function Page() {
             if (IDs.length === 0) setInfo(true);
             if (IDs.length > 0) {
               router.push(
-                `/book/vehicle?IDs=${encodeURIComponent(IDs.join(","))}${result.current ? "&" + result.current : ""}`
+                `/book/calendar?IDs=${encodeURIComponent(IDs.join(","))}${result.current ? "&" + result.current : ""}`
               );
             } else
               router.push(
