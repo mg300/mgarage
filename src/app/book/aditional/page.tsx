@@ -1,8 +1,9 @@
 "use client";
 import Button from "@/app/components/Button/Button";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 interface IAditional {
   serviceQuality: string;
@@ -13,18 +14,33 @@ interface IAditional {
 
 function Page() {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
+    setValue,
   } = useForm<IAditional>();
+
+  const onSubmit = (data: IAditional) => {
+    const queryParams = Object.entries(data)
+      .filter(([key, value]) => value !== "" && value !== undefined)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+      .join("&");
+    router.replace(`/book/summary?${queryParams}`);
+  };
+  useEffect(() => {
+    searchParams.forEach((value: string, key: string) => {
+      setValue(key as keyof IAditional, value);
+    });
+  }, [searchParams, setValue]);
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Wprowadź dodatkowe dane:</p>
       <div className="relative p-16 border-2 border-solid border-gray-200 shadow-lg min-h-[40rem] mb-20">
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
             <p className="text-logo font-semibold text-lg mb-5">
               Wybierz jakość części, które chcesz aby były zamontowane w twoim samochodzie:

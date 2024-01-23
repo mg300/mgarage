@@ -121,7 +121,7 @@ function Page() {
       .filter(([key, value]) => value !== "" && value !== undefined)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join("&");
-    router.replace(`/book/aditional?${encodeURIComponent(prevParams)}&${queryParams}`);
+    router.replace(`/book/aditional?${queryParams}`);
   };
   useEffect(() => {
     searchParams.forEach((value: string, key: string) => {
