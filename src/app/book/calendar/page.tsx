@@ -19,6 +19,7 @@ interface availableDate {
   hours: Date[];
 }
 function Page() {
+  const [validationErr, setValidationErr] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentDate = new Date();
@@ -126,9 +127,13 @@ function Page() {
   function onSubmit() {
     const prevParams = new URLSearchParams(searchParams);
     prevParams.delete("date");
-    console.log(prevParams.toString());
     const dateString = endDate?.toISOString();
-    router.push(`/book/vehicle?${prevParams}&date=${dateString}`);
+    if (!endDate) {
+      setValidationErr(true);
+      return;
+    }
+    setValidationErr(false);
+    // router.push(`/book/vehicle?${prevParams}&date=${dateString}`);
   }
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
@@ -150,6 +155,7 @@ function Page() {
                   onClick={(e) => {
                     e.preventDefault();
                     setPrevMonth();
+                    setEndDate(null);
                   }}
                 >
                   <GrPrevious />
@@ -169,7 +175,10 @@ function Page() {
                         id={day.toString() + "p"}
                         name="day"
                         type="radio"
-                        onClick={() => setPrevMonth()}
+                        onClick={() => {
+                          setPrevMonth();
+                          setEndDate(null);
+                        }}
                       />
                       <label
                         className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
@@ -192,6 +201,7 @@ function Page() {
                             (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth(), index + 1)
                           );
                           setDateIsSelected(true);
+                          setEndDate(null);
                         }}
                       />
                       <label
@@ -212,7 +222,10 @@ function Page() {
                         id={day.toString() + "n"}
                         name="day"
                         type="radio"
-                        onClick={() => setNextMonth()}
+                        onClick={() => {
+                          setNextMonth();
+                          setEndDate(null);
+                        }}
                       />
                       <label
                         className={`block cursor-pointer text-center w-[3rem] h-[3rem]  p-3  font-bold ${"text-gray-400 "}`}
@@ -228,6 +241,7 @@ function Page() {
                   onClick={(e) => {
                     e.preventDefault();
                     setNextMonth();
+                    setEndDate(null);
                   }}
                 >
                   <GrNext />
@@ -273,6 +287,7 @@ function Page() {
           </div>
 
           <div className="mt-20">
+            {validationErr && <p className="text-red-600 font-semibold text-lg mb-5">Nie zaznaczono daty</p>}
             <Link
               href={{
                 pathname: "/book",
