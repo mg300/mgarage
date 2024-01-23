@@ -7,29 +7,12 @@ import { useForm } from "react-hook-form";
 interface IAditional {
   serviceQuality: string;
   info: string;
-}
-interface input {
-  label: string;
-  id: keyof IAditional;
-  placeholder?: string;
-  required?: boolean;
+  name: string;
+  phone: string;
 }
 
 function Page() {
   const searchParams = useSearchParams();
-
-  const data: input[] = [
-    {
-      id: "serviceQuality",
-      label: "Jakość",
-      required: true,
-    },
-    {
-      id: "info",
-      label: "Informacje dodatkowe",
-      required: true,
-    },
-  ];
 
   const {
     register,
@@ -50,14 +33,13 @@ function Page() {
               <li>
                 <input
                   type="radio"
-                  id="hosting-small"
-                  name="hosting"
-                  value="hosting-small"
+                  id="quality-low"
+                  value="quality-low"
                   className="hidden peer"
-                  required
+                  {...register("serviceQuality", { required: true && "Nie zaznaczono żadnej opcji" })}
                 />
                 <label
-                  htmlFor="hosting-small"
+                  htmlFor="quality-low"
                   className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border  rounded-lg cursor-pointer border-gray-700  peer-checked:border-red-400 peer-checked:text-red-800 "
                 >
                   <div className="block">
@@ -69,14 +51,13 @@ function Page() {
               <li>
                 <input
                   type="radio"
-                  id="hosting-medium"
-                  name="hosting"
-                  value="hosting-medium"
+                  id="quality-medium"
+                  value="quality-medium"
                   className="hidden peer"
-                  required
+                  {...register("serviceQuality", { required: true && "Nie zaznaczono żadnej opcji" })}
                 />
                 <label
-                  htmlFor="hosting-medium"
+                  htmlFor="quality-medium"
                   className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border  rounded-lg cursor-pointer border-gray-700  peer-checked:border-red-400 peer-checked:text-red-800 "
                 >
                   <div className="block">
@@ -95,14 +76,13 @@ function Page() {
               <li>
                 <input
                   type="radio"
-                  id="hosting-high"
-                  name="hosting"
-                  value="hosting-high"
+                  id="quality-high"
+                  value="quality-high"
                   className="hidden peer"
-                  required
+                  {...register("serviceQuality", { required: true && "Nie zaznaczono żadnej opcji" })}
                 />
                 <label
-                  htmlFor="hosting-high"
+                  htmlFor="quality-high"
                   className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border  rounded-lg cursor-pointer border-gray-700  peer-checked:border-red-400 peer-checked:text-red-800 "
                 >
                   <div className="block">
@@ -114,14 +94,13 @@ function Page() {
               <li>
                 <input
                   type="radio"
-                  id="hosting-oem"
-                  name="hosting"
-                  value="hosting-oem"
+                  id="quality-oem"
+                  value="quality-oem"
                   className="hidden peer"
-                  required
+                  {...register("serviceQuality", { required: true && "Nie zaznaczono żadnej opcji" })}
                 />
                 <label
-                  htmlFor="hosting-oem"
+                  htmlFor="quality-oem"
                   className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border  rounded-lg cursor-pointer border-gray-700  peer-checked:border-red-400 peer-checked:text-red-800 "
                 >
                   <div className="block">
@@ -138,15 +117,60 @@ function Page() {
                 </label>
               </li>
             </ul>
+            <p className="text-red-600 mb-10 mt-[-1rem]">{errors["serviceQuality"]?.message}</p>
             <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Your message
+              Uwagi:
             </label>
             <textarea
               id="message"
               rows={4}
               className="block p-2.5 w-[50%] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 mb-20"
               placeholder="Wpisz swoje uwagi..."
+              {...register("info")}
             ></textarea>
+
+            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+              Imię i nazwisko
+            </label>
+            <input
+              type="text"
+              id="name"
+              {...register("name", {
+                required: true && "Podaj imię i nazwisko",
+                minLength: { value: 3, message: "Pole ma za mało znaków" },
+                maxLength: { value: 50, message: "Pole ma za dużo znaków" },
+                pattern: {
+                  value: /^[A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ]+ [A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/,
+                  message: "Wprowadzono niepoprawne dane.",
+                },
+              })}
+              className={` ${
+                errors["name"] ? "border-red-400 border-2" : "border-gray-400"
+              } bg-gray-100 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+              placeholder="Imię i nazwisko"
+            />
+            <p className="text-red-600">{errors["name"]?.message}</p>
+            <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 mt-5">
+              Numer telefonu:
+            </label>
+            <input
+              type="text"
+              id="phone"
+              {...register("phone", {
+                required: true && "Podaj numer telefonu",
+                minLength: { value: 3, message: "Pole ma za mało znaków" },
+                maxLength: { value: 16, message: "Pole ma za dużo znaków" },
+                pattern: {
+                  value: /^(?:\+\d{1,3}\s?)?(?:\d{9,}|(?:\d{3}\s?){2}\d{3,})$/,
+                  message: "Wprowadzono niepoprawny numer telefonu.",
+                },
+              })}
+              className={` ${
+                errors["phone"] ? "border-red-400 border-2" : "border-gray-400"
+              } bg-gray-100 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+              placeholder="Numer telefonu"
+            />
+            <p className="text-red-600">{errors["phone"]?.message}</p>
           </div>
           <div className="mt-20">
             <Link
@@ -159,7 +183,7 @@ function Page() {
                 Powrót
               </Button>
             </Link>
-            <Button onClick={() => {}} color="red">
+            <Button type="submit" color="red">
               Zarezerwuj wizytę
             </Button>
           </div>
