@@ -21,6 +21,7 @@ interface IcarData {
   date: string;
 }
 function Page() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [carData, setCarData] = useState<IcarData>();
   useEffect(() => {
@@ -63,7 +64,7 @@ function Page() {
         <table className="table-auto">
           <tbody>
             <tr className="border-b border-gray-200">
-              <td className="py-2 px-4 font-bold">Jakość obsługi serwisowej:</td>
+              <td className="py-2 px-4 font-bold">Jakość użytych części:</td>
               <td className="py-2 px-4">{getPolishQualityName(carData.serviceQuality)}</td>
             </tr>
             <tr className="border-b border-gray-200">
@@ -132,9 +133,11 @@ function Page() {
               Powrót
             </Button>
           </Link>
-          <Button type="submit" color="red">
-            Zarezerwuj wizytę
-          </Button>
+          <Link href="/book/info">
+            <Button type="submit" color="red">
+              Zarezerwuj wizytę
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

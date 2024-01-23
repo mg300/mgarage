@@ -200,7 +200,7 @@ function Page() {
               </Button>
             </Link>
             <Button type="submit" color="red">
-              Zarezerwuj wizytę
+              Podsumowanie
             </Button>
           </div>
         </form>
