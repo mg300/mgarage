@@ -10,6 +10,7 @@ interface IAditional {
   info: string;
   name: string;
   phone: string;
+  email: string;
 }
 
 function Page() {
@@ -187,6 +188,23 @@ function Page() {
               placeholder="Numer telefonu"
             />
             <p className="text-red-600">{errors["phone"]?.message}</p>
+            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 mt-5">
+              Adres e-mail:
+            </label>
+            <input
+              type="text"
+              id="email"
+              {...register("email", {
+                required: true && "Podaj email",
+                minLength: { value: 3, message: "Pole ma za mało znaków" },
+                maxLength: { value: 40, message: "Pole ma za dużo znaków" },
+              })}
+              className={` ${
+                errors["email"] ? "border-red-400 border-2" : "border-gray-400"
+              } bg-gray-100 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+              placeholder="Adres e-mail"
+            />
+            <p className="text-red-600">{errors["email"]?.message}</p>
           </div>
           <div className="mt-20">
             <Link
