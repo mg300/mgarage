@@ -19,9 +19,9 @@ interface IcarData {
   registrationNumber: string;
   IDs: string;
   date: string;
+  email: string;
 }
 function Page() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [carData, setCarData] = useState<IcarData>();
   useEffect(() => {
@@ -40,6 +40,7 @@ function Page() {
       registrationNumber: searchParams.get("registrationNumber") || "",
       IDs: searchParams.get("IDs") || "",
       date: searchParams.get("date") || "",
+      email: searchParams.get("email") || "",
     });
   }, []);
   const getPolishQualityName = (quality: string) => {
@@ -64,10 +65,6 @@ function Page() {
         <table className="table-auto">
           <tbody>
             <tr className="border-b border-gray-200">
-              <td className="py-2 px-4 font-bold">Jakość użytych części:</td>
-              <td className="py-2 px-4">{getPolishQualityName(carData.serviceQuality)}</td>
-            </tr>
-            <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Imię i nazwisko:</td>
               <td className="py-2 px-4">{carData?.name}</td>
             </tr>
@@ -75,6 +72,19 @@ function Page() {
               <td className="py-2 px-4 font-bold">Numer telefonu:</td>
               <td className="py-2 px-4">{carData?.phone}</td>
             </tr>
+            <tr className="border-b border-gray-200">
+              <td className="py-2 px-4 font-bold">Email:</td>
+              <td className="py-2 px-4">{carData.email}</td>
+            </tr>
+            <tr className="border-b border-gray-200">
+              <td className="py-2 px-4 font-bold">Data:</td>
+              <td className="py-2 px-4">{new Date(carData.date).toLocaleString()}</td>
+            </tr>
+            <tr className="border-b border-gray-200">
+              <td className="py-2 px-4 font-bold">Jakość użytych części:</td>
+              <td className="py-2 px-4">{getPolishQualityName(carData.serviceQuality)}</td>
+            </tr>
+
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Marka:</td>
               <td className="py-2 px-4">{carData?.mark}</td>
@@ -114,10 +124,6 @@ function Page() {
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">ID usługi:</td>
               <td className="py-2 px-4">{carData?.IDs}</td>
-            </tr>
-            <tr className="border-b border-gray-200">
-              <td className="py-2 px-4 font-bold">Data:</td>
-              <td className="py-2 px-4">{new Date(carData.date).toLocaleString()}</td>
             </tr>
           </tbody>
         </table>
