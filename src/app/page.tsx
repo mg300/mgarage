@@ -1,8 +1,8 @@
-import Button from "./components/Button/Button";
 import BackgroundMain from "./components/BackgroundMain";
 import About from "./components/About";
 import Services from "./components/Services";
 import Link from "next/link";
+import Button from "./components/Button/Button";
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         </p>
         <div className="mt-8 ml-10">
           <Link href="/book">
-            <Button>Zarezerwuj termin</Button>
+            <Button color="red">Zarezerwuj termin</Button>
           </Link>
         </div>
         <BackgroundMain />

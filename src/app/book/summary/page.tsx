@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@/app/components/Button/Button";
+import Spinner from "@/app/components/Spinner/Spinner";
+import SpinnerSmall from "@/app/components/Spinner/SpinnerSmall";
 
 interface IcarData {
   serviceQuality: string;
@@ -21,7 +23,18 @@ interface IcarData {
   date: string;
   email: string;
 }
+interface IService {
+  id: number;
+  name: string;
+  price: number;
+  time: string;
+  description: string;
+  bulletDescription: string;
+}
 function Page() {
+  const [data, setData] = useState<IService[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const [carData, setCarData] = useState<IcarData>();
   useEffect(() => {
@@ -42,6 +55,29 @@ function Page() {
       date: searchParams.get("date") || "",
       email: searchParams.get("email") || "",
     });
+    console.log(searchParams.get("IDs"));
+    const fetchData = async (ids: string | null) => {
+      if (ids === null) return;
+
+      try {
+        const response = await fetch(`/api/services/${ids}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const result = await response.json();
+        setData(result);
+        setLoading(false);
+        console.log(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("Failed to fetch data");
+        setLoading(false);
+      }
+    };
+
+    fetchData(searchParams.get("IDs"));
   }, []);
   const getPolishQualityName = (quality: string) => {
     switch (quality) {
@@ -122,8 +158,29 @@ function Page() {
               <td className="py-2 px-4">{carData?.registrationNumber}</td>
             </tr>
             <tr className="border-b border-gray-200">
-              <td className="py-2 px-4 font-bold">ID usługi:</td>
-              <td className="py-2 px-4">{carData?.IDs}</td>
+              <td className="py-2 px-4 font-bold">Nazwa usług:</td>
+              <td className="py-2 px-4">
+                {loading ? (
+                  <SpinnerSmall></SpinnerSmall>
+                ) : (
+                  <span>
+                    {" "}
+                    {data.map((service, index) => (
+                      <p key={index}>{service.name}</p>
+                    ))}
+                  </span>
+                )}
+              </td>
+            </tr>
+            <tr className="border-b border-gray-200">
+              <td className="py-2 px-4 font-bold">Kwota orientacyjna:</td>
+              <td className="py-2 px-4">
+                {loading ? (
+                  <SpinnerSmall></SpinnerSmall>
+                ) : (
+                  <span>{data.reduce((total, service) => total + service.price, 0)}</span>
+                )}
+              </td>
             </tr>
           </tbody>
         </table>
