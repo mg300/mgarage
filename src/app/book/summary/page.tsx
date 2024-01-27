@@ -7,21 +7,21 @@ import Spinner from "@/app/components/Spinner/Spinner";
 import SpinnerSmall from "@/app/components/Spinner/SpinnerSmall";
 
 interface IcarData {
-  serviceQuality: string;
-  name: string;
+  client: string;
+  email: string;
   phone: string;
+  date: string;
+  quality: string;
   mark: string;
   model: string;
   vin: string;
-  year: string;
+  productionYear: string;
   color: string;
   fuelType: string;
   engineCapacity: string;
   mileage: string;
   registrationNumber: string;
-  IDs: string;
-  date: string;
-  email: string;
+  serviceIDs: string;
 }
 interface IService {
   id: number;
@@ -39,23 +39,22 @@ function Page() {
   const [carData, setCarData] = useState<IcarData>();
   useEffect(() => {
     setCarData({
-      serviceQuality: searchParams.get("serviceQuality") || "",
-      name: searchParams.get("name") || "",
+      quality: searchParams.get("serviceQuality") || "",
+      client: searchParams.get("name") || "",
       phone: searchParams.get("phone") || "",
       mark: searchParams.get("mark") || "",
       model: searchParams.get("model") || "",
       vin: searchParams.get("vin") || "",
-      year: searchParams.get("year") || "",
+      productionYear: searchParams.get("year") || "",
       color: searchParams.get("color") || "",
       fuelType: searchParams.get("fuelType") || "",
       engineCapacity: searchParams.get("engineCapacity") || "",
       mileage: searchParams.get("mileage") || "",
       registrationNumber: searchParams.get("registrationNumber") || "",
-      IDs: searchParams.get("IDs") || "",
+      serviceIDs: searchParams.get("IDs") || "",
       date: searchParams.get("date") || "",
       email: searchParams.get("email") || "",
     });
-    console.log(searchParams.get("IDs"));
     const fetchData = async (ids: string | null) => {
       if (ids === null) return;
 
@@ -69,7 +68,6 @@ function Page() {
         const result = await response.json();
         setData(result);
         setLoading(false);
-        console.log(result);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Failed to fetch data");
@@ -94,6 +92,12 @@ function Page() {
     }
   };
   if (carData === undefined) return;
+  async function onSumbit() {
+    await fetch(`/api/services`, {
+      method: "POST",
+      body: JSON.stringify(carData),
+    });
+  }
   return (
     <div className="min-h-screen pt-40 font-body  mx-auto max-w-[80rem] ">
       <p className="text-logo font-semibold text-2xl mb-10">Podsumowanie:</p>
@@ -102,7 +106,7 @@ function Page() {
           <tbody>
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Imię i nazwisko:</td>
-              <td className="py-2 px-4">{carData?.name}</td>
+              <td className="py-2 px-4">{carData?.client}</td>
             </tr>
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Numer telefonu:</td>
@@ -118,7 +122,7 @@ function Page() {
             </tr>
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Jakość użytych części:</td>
-              <td className="py-2 px-4">{getPolishQualityName(carData.serviceQuality)}</td>
+              <td className="py-2 px-4">{getPolishQualityName(carData.quality)}</td>
             </tr>
 
             <tr className="border-b border-gray-200">
@@ -135,7 +139,7 @@ function Page() {
             </tr>
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Rok produkcji:</td>
-              <td className="py-2 px-4">{carData?.year}</td>
+              <td className="py-2 px-4">{carData?.productionYear}</td>
             </tr>
             <tr className="border-b border-gray-200">
               <td className="py-2 px-4 font-bold">Kolor:</td>
@@ -197,7 +201,7 @@ function Page() {
             </Button>
           </Link>
           <Link href="/book/info">
-            <Button type="submit" color="red">
+            <Button type="submit" color="red" onClick={onSumbit}>
               Zarezerwuj wizytę
             </Button>
           </Link>
