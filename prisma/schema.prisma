@@ -18,3 +18,22 @@ model Services{
   description String
   bulletDescription String?
 }
+
+model Orders{
+  id Int @id @default(autoincrement())
+  client String
+  email String
+  date DateTime
+  quality String
+  mark String
+  model String
+  vin String
+  productionYear String
+  color String
+  fuelType String
+  engineCapacity String
+  mileage String
+  registrationNumber String
+  serviceIDs String
+  phone String
+}
