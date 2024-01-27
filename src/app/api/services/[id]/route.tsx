@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextResponse, { params }: any) {
   const ids = params.id.split(",").map((id: any) => parseInt(id));
-  console.log(ids);
   try {
     const data = await prisma.services.findMany({ where: { id: { in: ids } } });
     return NextResponse.json(data);

@@ -366,6 +366,7 @@ function Page() {
           )}
         </div>
         {info && <p className="text-red-700 text-lg mb-10">Nie zaznaczono żadnej pozycji</p>}
+        {error && <p className="text-red-700 text-lg mb-10">Nie można pobrać danych :(</p>}
 
         <Button
           onClick={() => {
