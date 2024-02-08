@@ -2,6 +2,8 @@
 
 ## Getting Started
 
+![GIF](https://github.com/mg300/mgarage/blob/main/GIF.gif)
+
 First, run the Postgres server.
 
 Second, run the development server:
